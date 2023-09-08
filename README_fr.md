@@ -1,7 +1,7 @@
 # Règles de vol pour Git
 
 🌍
-*[English](README.md) ∙ [Español](README_es.md)  ∙  [Русский](README_ru.md) ∙ [简体中文](README_zh-CN.md)∙ [한국어](README_kr.md)  ∙  [Tiếng Việt](README_vi.md) ∙ [Français](README_fr.md) ∙ [日本語](README_ja.md)*
+*[English](README.md) ∙ [Español](README_es.md)  ∙  [Русский](README_ru.md) ∙ [繁體中文](README_zh-TW.md) ∙ [简体中文](README_zh-CN.md) ∙ [한국어](README_kr.md)  ∙  [Tiếng Việt](README_vi.md) ∙ [Français](README_fr.md) ∙ [日本語](README_ja.md)*
 
 #### C'est quoi des "règles de vol" ?
 
@@ -174,6 +174,7 @@ Si vous voulez voir un fichier à un commit spécifique, vous pouvez aussi faire
 $ git show <commitid>:nomdufichier
 ```
 
+<a name="wrong-thing-in-commit-message"></a>
 ### J'ai commis une erreur dans un message de commit
 
 Si vous vous êtes trompé·e et que le commit n'a pas encore été poussé, vous pouvez appliquer la commande suivante afin de changer le message du commit sans affecter les changements de ce même commit :
@@ -239,7 +240,7 @@ $ git push --force-with-lease [remote] [branche]
 Si vous n'avez pas poussé, pour réinitialiser Git vers l'état dans lequel il était avant que vous ne fassiez votre dernier commit (tout en gardant vos changements) :
 
 ```
-(ma-branche*)$ git reset --soft HEAD@{1}
+(ma-branche)$ git reset --soft HEAD^
 ```
 
 Cela ne marchera que si vous n'avez pas poussé. Si vous avez poussé, la seule vraie chose sécurisée à faire est `git revert SHAduMauvaisCommit`. Cela créera un nouveau commit qui annule tous les changements du commit en question. Ou, si la branche vers laquelle vous avez poussé est "rebase-safe" (en d'autres termes, les autres développeur·euse·s ne la récupéreront pas), vous pouvez juste lancer `git push --force-with-lease`. Pour plus d'informations, jetez un œil [à la section ci-dessus](#je-veux-supprimer-ou-retirer-mon-dernier-commit).
@@ -256,7 +257,7 @@ $ git push --force-with-lease [remote] [branche]
 
 Ou faites un [rebase interactif](#interactive-rebase) et retirez les lignes correspondantes au(x) commit(s) que vous souhaitez supprimer.
 
-<a name="#force-push"></a>
+<a name="force-push"></a>
 ### J'ai essayé de pousser un commit modifié vers le dépôt distant, mais j'ai eu un message d'erreur
 
 ```sh
@@ -279,7 +280,7 @@ En règle générale, **évitez de pousser de force**. Il est préférable de cr
 
 Si vous êtes *absolument* sûr·e que personne n'est en train de travailler sur la même branche que vous ou que vous souhaitez mettre à jour la branche de manière *inconditionnelle*, vous pouvez utiliser `--force` (`-f`), mais cela devrait être évité en général.
 
-<a href="undo-git-reset-hard"></a>
+<a name="undo-git-reset-hard"></a>
 ### J'ai fait un hard reset par accident, et je veux retrouver mes changements
 
 Si vous avez accidentellement fait un `git reset --hard`, vous pouvez normalement retrouver votre commit, car Git garde un log de tout ce que vous faites pendant quelques jours.
@@ -298,7 +299,7 @@ Vous verrez une liste de vos précédents commits, et un commit pour la réiniti
 
 Et cela devrait faire l'affaire.
 
-<a href="undo-a-commit-merge"></a>
+<a name="undo-a-commit-merge"></a>
 ### J'ai commité et poussé une fusion par accident
 
 Si vous avez accidentellement fusionné une branche d'une fonctionnalité avec la branche de développement principale avant qu'elle ne soit prête à être fusionnée, vous pouvez toujours annuler cette fusion. Mais il y a un piège : un commit de fusion a plus d'un parent (en général deux).
@@ -312,7 +313,7 @@ où l'option `-m 1` demande de sélectionner le parent numéro 1 (la branche ver
 
 À noter : le numéro du parent n'est pas un identifiant de commit. Un commit de fusion ressemble plus à `Merge: 8e2ce2d 86ac2e7`. Le numéro du parent est l'index basé sur 1 du parent souhaité sur cette ligne, le premier identifiant est le numéro 1, le second le numéro 2, et ainsi de suite.
 
-<a href="undo-sensitive-commit-push"></a>
+<a name="undo-sensitive-commit-push"></a>
 ### J'ai commité et poussé des fichiers contenant des données sensibles par accident
 
 Si vous avez accidentellement poussé des fichiers contenant des données sensibles (mots de passe, clés, etc.), vous pouvez modifier le commit précédent. Gardez toutefois à l'esprit qu'une fois que vous avez poussé un commit, vous devez considérer n'importe quelle donnée qu'il contient comme étant compromise. Ces étapes peuvent supprimer les données sensibles de votre dépôt public ou de votre copie locale, mais vous ne **pouvez pas** supprimer les données sensibles des copies clonées par d'autres personnes. Si vous avez commité un mot de passe, **changez-le immédiatement**. Si vous avez commité une clé, **révoquez-la et régénérez-la immédiatement**. Modifier le commit poussé n'est pas suffisant, étant donné que n'importe qui aurait pu extraire le commit original contenant vos données sensibles pendant ce temps.
@@ -345,7 +346,7 @@ Si vous avez créé d'autres commits pendant ce temps (c'est à dire que les don
 
 ## Indexation
 
-<a href="#i-need-to-add-staged-changes-to-the-previous-commit"></a>
+<a name="add-staged-changes-to-previous-commit"></a>
 ### J'ai besoin d'ajouter des modifications indexées sur le commit précédent
 
 ```sh
@@ -376,12 +377,12 @@ $ git add -N nomdufichier.x
 
 Ensuite, vous devrez utiliser l'option `e` afin de choisir manuellement quelles lignes ajouter. Lancer `git diff --cached` ou `git diff --staged` vous montrera quelles lignes vous avez indexées comparées à celles qui sont toujours sauvegardées en local.
 
-<a href="stage-in-two-commits"></a>
+<a name="stage-in-two-commits"></a>
 ### Je veux ajouter les changements d'un fichier dans deux commits différents
 
 `git add` ajoutera le fichier entier à un commit. `git add -p` vous permettra de sélectionner interactivement quels changements vous souhaitez ajouter.
 
-<a href="unstaging-edits-and-staging-the-unstaged"></a>
+<a name="unstaging-edits-and-staging-the-unstaged"></a>
 ### Je veux indexer mes modifications indexées, et désindexer mes modifications indexées
 
 Cela est délicat. La meilleure chose que nous pouvons vous conseiller est que vous devriez remiser vos modifications non indexées, puis utiliser `git reset`. Après cela, utilisez `pop` pour déremiser vos modifications, puis ajoutez-les :
@@ -395,14 +396,14 @@ $ git add -A
 
 ## Modifications non indexées
 
-<a href="move-unstaged-edits-to-new-branch"></a>
+<a name="move-unstaged-edits-to-new-branch"></a>
 ### Je veux déplacer mes modifications non indexées vers une nouvelle branche
 
 ```sh
 $ git checkout -b ma-branche
 ```
 
-<a href="move-unstaged-edits-to-old-branch"></a>
+<a name="move-unstaged-edits-to-old-branch"></a>
 ### Je veux déplacer mes modifications non indexées vers une branche différente existante
 
 ```sh
@@ -411,7 +412,7 @@ $ git checkout ma-branche
 $ git stash pop
 ```
 
-<a href="i-want-to-discard-my-local-uncommitted-changes"></a>
+<a name="discard-local-uncommitted-changes"></a>
 ### Je veux me débarrasser de mes modifications locales non commitées (indexées et non-indexées)
 
 Si vous voulez vous débarrasser de toutes vos modifications locales indexées et non-indexées, vous pouvez faire ceci :
@@ -501,7 +502,7 @@ Quand vous souhaitez vous débarrasser de toutes vos modifications locales non c
 ```sh
 $ git checkout .
 ```
-<a href="i-want-to-discard-all-my-untracked-files"></a>
+<a name="discard-all-untracked-files"></a>
 ### Je veux me débarrasser de tous mes fichiers non suivis
 
 Quand vous souhaitez vous débarrasser de tous vos fichiers non suivis :
@@ -510,7 +511,7 @@ Quand vous souhaitez vous débarrasser de tous vos fichiers non suivis :
 $ git clean -f
 ```
 
-<a href="I-want-to-unstage-specific-staged-file"></a>
+<a name="unstage-specific-staged-file"></a>
 ### Je veux désindexer un fichier indexé spécifique
 
 Il arrive parfois que nous ayons un ou plusieurs fichiers qui ont été indexés par accident. Et ces fichiers n'ont pas été commités auparavant. Pour les désindexer :
@@ -568,7 +569,7 @@ $ git reset --hard c5bc55a
 
 Et voilà.
 
-<a href="discard-local-commits"></a>
+<a name="discard-local-commits"></a>
 ### Je veux supprimer mes commits locaux afin que ma branche soit pareille à celle sur le serveur
 
 Assurez-vous que vous n'avez pas poussé vos modifications sur le serveur.
@@ -576,7 +577,6 @@ Assurez-vous que vous n'avez pas poussé vos modifications sur le serveur.
 `git status` devrait vous indiquer combien de commits en avance vous êtes par rapport à origin :
 
 ```sh
-(my-branch)$ git status
 (ma-branche)$ git status
 # On branch ma-branche
 # Your branch is ahead of 'origin/my-branch' by 2 commits.
@@ -587,7 +587,7 @@ Assurez-vous que vous n'avez pas poussé vos modifications sur le serveur.
 Une des façons de faire pour réinitialiser votre branche afin qu'elle corresponde à origin (afin d'avoir la même chose que le dépôt distant) est de lancer ceci :
 
 ```sh
-(main)$ git reset --hard origin/ma-branche
+(ma-branche)$ git reset --hard origin/ma-branche
 ```
 
 <a name="commit-wrong-branch"></a>
@@ -736,7 +736,7 @@ $ git fetch -p upstream
 
 où `upstream` est le dépôt distant depuis lequel vous voulez mettre à jour.
 
-<a name='restore-a-deleted-branch'></a>
+<a name="restore-a-deleted-branch"></a>
 ### J'ai supprimé ma branche par accident
 
 Si vous poussez régulièrement sur la branche distante, vous devriez ne pas avoir de problème la plupart du temps. Mais il arrive parfois que vous finissez par supprimer vos branches. Admettons que nous créons une nouvelle branche avec un nouveau fichier :
@@ -854,7 +854,7 @@ Pour renommer une autre branche (locale) :
 (main)$ git branch -m ancien-nom nouveau-nom
 ```
 
-<a name="i-want-to-checkout-to-a-remote-branch-that-someone-else-is-working-on"></a>
+<a name="working-on-checkout-remote-branch"></a>
 ### Je veux me déplacer sur une branche distante sur laquelle quelqu'un est en train de travailler
 
 Pour commencer, récupérez toutes les branches depuis le dépôt distant :
@@ -893,7 +893,7 @@ Avec le mode `upstream` et le mode `simple` (défaut dans Git 2.0) de la configu
 $ git push
 ```
 
-Le comportement des autres modes de `git push` est détaillé dans la [documentation de `push.default`](https://git-scm.com/docs/git-config#git-config-pushdefault).
+Le comportement des autres modes de `git push` est détaillé dans la [documentation de `push.default`](https://git-scm.com/docs/git-config#Documentation/git-config.txt-pushdefault).
 
 ### Je veux configurer une branche distante en tant qu'upstream pour une branche locale
 
@@ -911,7 +911,7 @@ Pour configurer la branche distante en tant qu'upstream pour une autre branche l
 $ git branch -u [nomduremote]/[branche] [branche-locale]
 ```
 
-<a name="i-want-to-set-my-HEAD-to-track-the-default-remote-branch"></a>
+<a name="head-to-track-remote-branch"></a>
 ### Je veux configurer mon HEAD pour suivre la branche distante par défaut
 
 En vérifiant vos branches distantes, vous pouvez voir lesquelles d'entre-elles sont suivies par HEAD. Dans certains cas, ce n'est pas la branche désirée.
@@ -1166,7 +1166,7 @@ Si vous voulez garder la version du code d'une des branches, vous pouvez utilise
 ```
 
 - Quand vous *fusionnez*, utilisez `--ours` pour garder les modifications de la branche locale, ou `--theirs` pour garder les modifications de l'autre branche.
-- Quand vous *rebasez*, utilisez `--theirs` pour garder les modifications de la branche locale, ou `--ours` pour garder les modifications de l'autre branche. Pour des explications concernant cet échange, consultez [cette note dans la documentation de Git](https://git-scm.com/docs/git-rebase#git-rebase---merge).
+- Quand vous *rebasez*, utilisez `--theirs` pour garder les modifications de la branche locale, ou `--ours` pour garder les modifications de l'autre branche. Pour des explications concernant cet échange, consultez [cette note dans la documentation de Git](https://git-scm.com/docs/git-rebase#Documentation/git-rebase.txt---merge).
 
 Si les fusions sont plus complexes, vous pouvez utiliser un éditeur de diff visuel :
 
@@ -1262,7 +1262,7 @@ Paramètres communs :
 
 * `--reverse` retourne les résultats dans l'ordre inverse, c'est à dire que la commande affichera le premier commit qui a fait la modification.
 
-<a name="i-want-to-find-by-author-committer"></a>
+<a name="find-by-committer"></a>
 ### Je veux rechercher par auteur·trice/validateur·trice
 
 Pour rechercher des commits par auteur·trice/validateur·trice, vous pouvez utiliser :
@@ -1409,7 +1409,7 @@ $ git push origin refs/tags/<nom-du-tag>
 
 ## Suivre des fichiers
 
-<a href="i-want-to-change-a-file-names-capitalization-without-changing-the-contents-of-the-file"></a>
+<a name="change-file-name-capitalization-without-changing-contents"></a>
 ### Je veux changer la capitalisation du nom d'un fichier, sans changer son contenu
 
 ```sh
@@ -1423,7 +1423,7 @@ $ git push origin refs/tags/<nom-du-tag>
 (main)$ git reset --hard origin/main
 ```
 
-<a href="remove-from-git"></a>
+<a name="remove-from-git"></a>
 ### Je veux retirer un fichier de Git mais garder le fichier
 
 ```sh
@@ -1450,12 +1450,16 @@ Supposons que vous voulez comparer le dernier commit avec le fichier du commit `
 
 ```sh
 $ git diff HEAD:path_to_file/file c5f567:path_to_file/file
+# ou
+$ git diff HEAD c5f567 -- path_to_file/file
 ```
 
 Il en est de même pour les branches :
 
 ```sh
 $ git diff main:path_to_file/file staging:path_to_file/file
+# ou
+$ git diff main staging -- path_to_file/file
 ```
 
 ### Je veux que Git ignore les changements d'un fichier spécifique

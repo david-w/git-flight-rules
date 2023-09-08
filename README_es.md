@@ -1,7 +1,7 @@
 # Reglas de vuelo para git
 
 🌍
-*[English](README.md) ∙ [Español](README_es.md)  ∙  [Русский](README_ru.md) ∙ [简体中文](README_zh-CN.md)∙ [한국어](README_kr.md)  ∙  [Tiếng Việt](README_vi.md) ∙ [Français](README_fr.md) ∙ [日本語](README_ja.md)*
+*[English](README.md) ∙ [Español](README_es.md)  ∙  [Русский](README_ru.md) ∙ [繁體中文](README_zh-TW.md) ∙ [简体中文](README_zh-CN.md) ∙ [한국어](README_kr.md)  ∙  [Tiếng Việt](README_vi.md) ∙ [Français](README_fr.md) ∙ [日本語](README_ja.md)*
 
 #### ¿Qué son "reglas de vuelo"?
 
@@ -201,8 +201,7 @@ $ git push --force-with-lease [remote] [branch]
 Si no has subido tus cambios, para resetear Git al estado en el que estaba antes de realizar tu último commit (mientras mantengas tus cambios en staging):
 
 ```
-(my-branch*)$ git reset --soft HEAD@{1}
-
+(my-branch)$ git reset --soft HEAD^
 ```
 
 Esto solo funciona si no subiste tu commit. Si lo hiciste, la única cosa segura por hacer es `git revert SHAofBadCommit`. Eso creará un nuevo commit que deshace todos los cambios del anterior commit. O,  si la rama que subiste es segura ante reorganizaciones (ej. otros desarrolladores no esperan recibir cambios desde ahí), puedes usar `git push --force-with-lease`. Para más, mira [la sección de arriba](#quiero-borrar-o-remover-mi-ultimo-commit).
@@ -515,7 +514,7 @@ Confirma que no ha enviado sus cambios al servidor.
 Una forma de reiniciar para hacer coincidir el origin (tener lo mismo que lo que está en el control remoto) es hacer esto:
 
 ```sh
-(main) $ git reset --hard origin / my-branch
+(my-branch) $ git reset --hard origin/my-branch
 ```
 
 ### Hice commit a main en lugar de una nueva rama
@@ -1066,7 +1065,7 @@ Si deseas conservar la versión del código de una rama, puedes usar `--us` o` -
 ```
 
 - Cuando haces *merge*, usa `--ours` para mantener los cambios de la rama local, o` --theirs` para mantener los cambios de la otra rama.
-- Cuando haces *rebase*, usa `--theirs` para mantener los cambios de la rama local, o` --ours` para mantener los cambios de la otra rama. Para obtener una explicación de este intercambio, consulte [esta nota en la documentación de Git] (https://git-scm.com/docs/git-rebase#git-rebase---merge).
+- Cuando haces *rebase*, usa `--theirs` para mantener los cambios de la rama local, o` --ours` para mantener los cambios de la otra rama. Para obtener una explicación de este intercambio, consulte [esta nota en la documentación de Git] (https://git-scm.com/docs/git-rebase#Documentation/git-rebase.txt---merge).
 
 Si las fusiones son más complicadas, puede usar un editor visual diff:
 
